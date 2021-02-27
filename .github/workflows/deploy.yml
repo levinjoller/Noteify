@@ -1,0 +1,47 @@
+name: Deploy
+
+on: 
+  push:
+    branches: [ master ]
+
+env:
+  HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
+  EMAIL_ADDR: ${{ secrets.EMAIL_ADDR }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    defaults:
+       run:
+          working-directory: ./src/Noteify.Web/
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
+        with:
+          key: noteify-docker-cache-{hash}
+          restore-keys: |
+            noteify-docker-cache-
+      
+      - name: Docker build
+        run: docker build -t registry.heroku.com/m150noteify/web ${GITHUB_WORKSPACE}
+
+      - name: Heroku login
+        shell: bash
+        run: |
+          docker login --username=_ --password=${HEROKU_AUTH_TOKEN} registry.heroku.com
+
+      - name: Heroku push
+        run: docker push registry.heroku.com/m150noteify/web
+
+      - uses: akhileshns/heroku-deploy@v3.6.8 # This is the action
+        with:
+          heroku_api_key: ${HEROKU_AUTH_TOKEN}
+          heroku_app_name: "m150noteify"
+          heroku_email: ${EMAIL_ADDR}
+          justlogin: true
+
+      - name: Heroku publish
+        run: heroku container:release web -a m150noteify

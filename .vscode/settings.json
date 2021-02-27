@@ -1,0 +1,25 @@
+{
+    "editor.minimap.renderCharacters": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.lineHeight": 24,
+    "editor.tokenColorCustomizations": {
+        "comments": "#ff0000"
+    },
+    "workbench.tree.indent": 14,
+    "files.autoSave": "afterDelay",
+    "explorer.decorations.badges": false,
+    "omnisharp.enableRoslynAnalyzers": true,
+    "omnisharp.enableEditorConfigSupport": true,
+    "csharp.format.enable": true,
+    "csharp.suppressDotnetRestoreNotification": true,
+    "csharp.semanticHighlighting.enabled": true,
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false,
+    "git.autofetch": true,
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#472515",
+        "titleBar.activeBackground": "#63331E",
+        "titleBar.activeForeground": "#FDF9F7"
+    }
+}

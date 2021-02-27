@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "ms-dotnettools.csharp",
+        "jchannon.csharpextensions",
+        "k--kato.docomment"
+    ],
+    "unwantedRecommendations": []
+}

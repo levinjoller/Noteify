@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Identity
+@using Noteify.Data.Models.Auth
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<ul class="nav navbar-nav navbar-right">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Account" asp-controller="Manage"
+                asp-action="Index">@UserManager.GetUserName(User)</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Account" asp-controller="Logout" asp-action="Index">Abmelden</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Account" asp-controller="Login" asp-action="Index">Anmelden</a>
+        </li>
+    }
+</ul>

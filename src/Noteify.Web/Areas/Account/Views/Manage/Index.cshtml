@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Profil";
+}
+
+<div>
+    <h1>Notizen exportieren</h1>
+    <hr>
+    <a class="btn btn-primary" asp-action="ExportCsv">Als CSV herunterladen</a>
+    <span class="text-danger">@ViewData["NoEntries"]</span>
+</div>
+<br />
+
+<div>
+    <h1>Konto entfernen</h1>
+    <hr>
+    <form asp-action="Delete" method="POST">
+        <input type="submit" class="btn btn-danger" value="Permanent entfernen" />
+    </form>
+</div>

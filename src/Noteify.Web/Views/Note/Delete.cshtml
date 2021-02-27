@@ -1,0 +1,48 @@
+@model Noteify.Web.ViewModels.NoteViewModel
+
+@{
+    ViewData["Title"] = "Notiz entfernen";
+}
+
+<h1>@ViewData["Title"]</h1>
+<h3>Sind Sie sicher, dass Sie diese Notiz entfernen wollen?</h3>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Designation)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Designation)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Message)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Message)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.TimeStamp)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.TimeStamp)
+    </dd>
+</dl>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Delete" method="POST">
+            <div class="form-check">
+                <input type="checkbox" value="true" class="form-check-input" id="isHardDelete" name="isHardDelete">
+                <label class="form-check-label" for="isHardDelete">Permanent entfernen?</label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Entfernen" class="btn btn-danger" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-secondary" asp-action="Index">Zurück zur Liste</a>
+</div>

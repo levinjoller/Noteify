@@ -1,0 +1,20 @@
+@model Noteify.Web.ViewModels.ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">Es ist ein Fehler aufgetreten!</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+<h3 class="text-danger">@Model.ErrorMessage</h3>
+<br>
+
+<a class="btn btn-secondary" asp-area="" asp-controller="Home" asp-action="Index">
+    Zur Startseite
+</a>

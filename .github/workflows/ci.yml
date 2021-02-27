@@ -1,0 +1,63 @@
+name: CI only
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+    
+      - name: Lint Code Base
+        uses: docker://github/super-linter:v3.13.5
+        env:
+          FILTER_REGEX_EXCLUDE: (.*lib/.*|.*docs/.* )
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_CSS: true
+          VALIDATE_HTML: true
+          VALIDATE_JSON: true
+          VALIDATE_YAML: true
+          VALIDATE_CSHARP: true
+          VALIDATE_MARKDOWN: true
+          VALIDATE_DOCKERFILE: true
+          VALIDATE_JAVASCRIPT_ES: true
+          VALIDATE_JAVASCRIPT_STANDARD: true
+
+  build:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ./src/Noteify.Web/
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        working-directory: ./tests/Noteify.Test.Unit/
+        run: dotnet test
+
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+        with:
+          key: noteify-docker-cache-{hash}
+          restore-keys: |
+            noteify-docker-cache-
+
+      - name: Test docker build
+        run: docker build -t m150noteify ${GITHUB_WORKSPACE}
